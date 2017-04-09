@@ -13,3 +13,12 @@ This blog uses the power of Django at backend and jinja to render pages with all
     <li>REST API(working), etc</li>
 </ul>
 <hr/>
+
+## Post List
+![post](/all-post.png?raw=true "post")
+
+## Post Detail
+![detail](/post-detail.png?raw=true "detail")
+
+## Post Create/Edit
+![create](/create-edit.png?raw=true "create")
