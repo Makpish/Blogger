@@ -8,9 +8,8 @@ This blog uses the power of Django at backend and jinja to render pages with all
     <li>Bootstrap</li>
     <li>JS</li>
     <li>Jquery</li>
-    <li>SQL</li>
-    <li>AngularJS(working)</li>
-    <li>REST API(working), etc</li>
+    <li>SQLite</li
+    <li>REST API, etc</li>
 </ul>
 <hr/>
 
@@ -22,3 +21,12 @@ This blog uses the power of Django at backend and jinja to render pages with all
 
 ## Post Create/Edit
 ![create](/create-edit.png?raw=true "create")
+
+## API Post List
+![post](/apihome.png?raw=true "post")
+
+## API Post Detail
+![detail](/apidetail.png?raw=true "detail")
+
+## API Json
+![create](/jsonapi.png?raw=true "create")
