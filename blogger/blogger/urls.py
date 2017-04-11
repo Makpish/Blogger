@@ -17,13 +17,14 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from authen import views
-
+from accounts.views import (login_view, register_view, logout_view)
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('django.contrib.auth.urls')),
-    #url(r'^login/$',views.login),#, namespace='login')),
-    #url(r'^register/$',views.register),#,, namespace='register')),
+    url(r'^login/',login_view, name="login"),
+    url(r'^logout/',logout_view, name="logout"),
+    url(r'^register/',register_view, name="register"),
+    url(r'^api/post/', include('posts.api.urls', namespace='post-api')),
     url(r'^post/', include('posts.urls', namespace="post"))
 ]
 

@@ -4,7 +4,11 @@ from django.db.models.signals import pre_save
 from django.utils.text import slugify
 from django.conf import settings
 from django.utils import timezone
-
+from markdown_deux import markdown
+from django.utils.safestring import mark_safe
+from comments.models import Comment
+from django.contrib.contenttypes.models import ContentType
+from .utils import get_read_time
 # Create your models here.
 
 #def upload_location(instance, filename):
@@ -25,6 +29,7 @@ class  Post(models.Model):
 	content = models.TextField()
 	draft = models.BooleanField(default=False)
 	publish = models.DateField(auto_now=False, auto_now_add=False)
+	read_time = models.TimeField(null=True, blank=True)
 	updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 	timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
@@ -37,8 +42,25 @@ class  Post(models.Model):
 		#return "/post/%s/" %(self.id)
 		return reverse("post:detail", kwargs={"slug": self.slug})
 
+	def get_mark(self):
+		content=self.content
+		return mark_safe(markdown(content))
+
 	class Meta:
 		ordering = ['-timestamp','-updated']
+
+	@property
+	def comments(self):
+		instance = self
+		qs=Comment.objects.filter_by_instance(instance)
+		return qs
+
+	@property
+	def get_comment_type(self):
+		instance = self
+		comment_type = ContentType.objects.get_for_model(instance)
+		return comment_type
+	
 
 
 #def create_slug(instance, new_slug=None):
@@ -55,5 +77,9 @@ def pre_save_post_reciever(sender, instance, *args, **kwargs):
 		else:
 			break
 	instance.slug = slug
+	if instance.content:
+		html_string = instance.get_mark()
+		read_time_var = get_read_time(html_string)
+		instance.read_time = read_time_var
 
 pre_save.connect(pre_save_post_reciever, sender=Post)
